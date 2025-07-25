@@ -46,6 +46,28 @@ In the current implementation, there's a simulated processing delay of 2 seconds
 
 - Docker and Docker Compose
 - Python 3.10+
+- Git (for version control)
+
+### Development Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+
+2. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   # Edit .env file if needed
+   ```
+
+3. **Initialize Git** (if not already initialized)
+   ```bash
+   git init
+   git add .
+   git commit -m "Initial commit"
+   ```
 
 ### Running with Docker (Recommended)
 
@@ -141,7 +163,11 @@ GET /api/v1/jobs/{job_id}/result
 │       ├── __init__.py
 │       └── routes.py    # API endpoints
 ├── tests/               # Test files
+│   ├── __init__.py
+│   ├── conftest.py     # Test fixtures
+│   └── test_jobs.py    # Test cases
 ├── .env.example         # Example environment variables
+├── .gitignore          # Git ignore file
 ├── docker-compose.yml   # Docker Compose configuration
 ├── Dockerfile           # Docker configuration
 ├── init.sql            # Database initialization
@@ -162,9 +188,35 @@ docker compose exec web pytest --cov=app --cov-report=term-missing
 
 ### Flower Dashboard
 Monitor Celery tasks at: http://localhost:5555
+- **Username**: `admin`
+- **Password**: `admin`
+- **Features**:
+  - Real-time task monitoring
+  - Worker status and statistics
+  - Task history and results
+  - Task retry and revoke functionality
 
 ### Health Check
 Check service health at: http://localhost:8000/health
+
+### Accessing Logs
+
+```bash
+# View web server logs
+docker compose logs web
+
+# View worker logs
+docker compose logs worker
+
+# View Flower logs
+docker compose logs flower
+
+# View database logs
+docker compose logs db
+
+# View Redis logs
+docker compose logs redis
+```
 
 ## 🔄 Job Lifecycle
 
@@ -179,14 +231,38 @@ Check service health at: http://localhost:8000/health
 | `DATABASE_URL` | PostgreSQL connection URL | `postgresql+asyncpg://postgres:postgres@db:5432/jobdb` |
 | `REDIS_URL` | Redis connection URL | `redis://redis:6379/0` |
 | `ENVIRONMENT` | Application environment | `development` |
+| `FLOWER_BASIC_AUTH` | Basic auth for Flower dashboard | `admin:admin` |
+| `CELERY_BROKER_URL` | Celery broker URL | `redis://redis:6379/0` |
+| `CELERY_RESULT_BACKEND` | Celery result backend | `redis://redis:6379/0` |
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. **Fork** the repository on GitHub
+2. **Clone** your fork locally
+   ```bash
+   git clone https://github.com/yourusername/stealth.git
+   cd stealth
+   ```
+3. **Set up** the development environment
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+4. **Create** a feature branch
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+5. **Make** your changes and commit them
+   ```bash
+   git add .
+   git commit -m "Add amazing feature"
+   ```
+6. **Push** to your fork
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+7. **Open** a Pull Request on GitHub
 
 ## 📄 License
 
