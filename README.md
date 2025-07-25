@@ -73,8 +73,8 @@ In the current implementation, there's a simulated processing delay of 2 seconds
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd <repository-directory>
+git clone [<repository-url>](https://github.com/anuragsingh132200/stealth)
+cd [<repository-directory>](https://github.com/anuragsingh132200/stealth)
 
 # Start all services
 docker compose up -d --build
